@@ -1,0 +1,44 @@
+{
+    "name": "high-hopes",
+    "displayName": "High Hopes",
+    "description": "lit af",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.42.0"
+    },
+    "categories": [
+        "Themes"
+    ],
+    "contributes": {
+        "themes": [
+            {
+                "label": "High Hopes",
+                "uiTheme": "vs-dark",
+                "path": "./asd.json"
+            }
+        ],
+        "configuration": {
+            "title": "High Hopes",
+            "properties": {}
+        },
+        "colors": [
+            {
+                "id": "high.background",
+                "description": "Editor background",
+                "defaults": {
+                    "dark": "#2c2c31",
+                    "light": "#2c2c31",
+                    "highContrast": "#2c2c31"
+                }
+            }
+        ]
+    },
+    "devDependencies": {
+        "@babel/core": "^7.8.7",
+        "@babel/node": "^7.8.7",
+        "babel-node": "0.0.1-security",
+        "color-shift": "git+https://github.com/tuomashatakka/color-shift.git",
+        "json5": "^2.1.1",
+        "less": "^3.11.1"
+    }
+}
