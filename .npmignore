@@ -1,0 +1,15 @@
+node_modules
+
+assets/**
+scripts/**
+etc/**
+
+.git
+.babelrc
+.eslintignore
+.eslintrc
+.flowconfig
+.gitignore
+.npmignore
+.vscode
+.DS_Store

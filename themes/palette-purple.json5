@@ -1,0 +1,14 @@
+{
+  foreground: '#f0e7e7',
+  light:      '#e0d7d7',
+  medium:     '#7d7f91',
+  dimmed:     '#343442',
+  background: '#2c2c31',
+  red:        '#ef5258',
+  orange:     '#5852ef',
+  yellow:     '#5852ef',
+  green:      '#5852ef',
+  turquoise:  '#5852ef',
+  blue:       '#5852ef',
+  purple:     '#7862af',
+}

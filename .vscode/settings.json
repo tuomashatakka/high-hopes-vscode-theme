@@ -23,14 +23,7 @@
     "menu.selectionForeground": "#84FFFF",
     "menubar.selectionForeground": "#84FFFF",
     "editor.findMatchBorder": "#84FFFF",
-    "selection.background": "#84FFFF40",
-    "tab.activeBorder": "#4F6A0A",
-    "titleBar.activeBackground": "#4F6A0A",
-    "titleBar.activeForeground": "#ffffff",
-    "activityBar.background": "#4F6A0A",
-    "activityBar.foreground": "#ffffff",
-    "statusBar.background": "#4F6A0A",
-    "statusBar.foreground": "#ffffff"
+    "selection.background": "#84FFFF40"
   },
   "peacock.color": "#dd0531"
 }

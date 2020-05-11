@@ -456,7 +456,8 @@
 		{
 			"scope": "entity.name.function",
 			"settings": {
-				"foreground": "#88C0D0"
+				"foreground": "#88C0D0",
+				"fontStyle": "italic"
 			}
 		},
 		{
@@ -603,6 +604,13 @@
 			"scope": "storage",
 			"settings": {
 				"foreground": "#81A1C1"
+			}
+		},
+		{
+			"scope": "storage.type.function",
+			"settings": {
+				"foreground": "#81A1C1",
+				"fontStyle": "italic"
 			}
 		},
 		{
