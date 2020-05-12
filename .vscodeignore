@@ -1,4 +1,12 @@
 .vscode/**
-.vscode-test/**
 .gitignore
 vsc-extension-quickstart.md
+flow-typed/**
+node_modules/**
+src/**
+themes/**
+.eslintignore
+.eslintrc
+.editorconfig
+.flowconfig
+server.js
