@@ -1,77 +1,84 @@
-const { resolve }             = require('path')
-const { readFileSync: read }  = require('fs')
 
+const $schema       = 'vscode://schemas/color-theme'
+const type          = 'dark'
+
+const mapTokenColor = ([ scope, settings ]) => ({ 
+  scope, 
+  settings 
+})
+  
+const getColors = context => ({
+  '#000000': context.background.darken().hex,
+  '#525252': context.background.lighten(0.1).hex,
+  '#606060': context.background.lighten(0.2).hex,
+  '#7c7c7c': context.background.lighten(0.3).hex,
+  '#808080': context.background.lighten(0.4).hex,
+  '#848484': context.background.lighten(0.5).hex,
+  '#a0a0a0': context.background.lighten(0.6).hex,
+  '#bbbbbb': context.background.lighten(0.7).hex,
+  '#c5c5c5': context.background.lighten(0.8).hex,
+  '#e7e7e7': context.background.lighten(0.9).hex,
+  '#ffffff': context.foreground.hex,
+
+  '#2e3440': context.background.hex,
+  '#3b4252': context.background.mix(context.foreground, 0.02).hex,
+  '#434c5e': context.background.mix(context.foreground, 0.05).hex,
+  '#474f62': context.background.mix(context.foreground, 0.1).hex,
+  '#4c566a': context.background.mix(context.foreground, 0.15).hex,
+  '#616e88': context.background.mix(context.foreground, 0.2).hex,
+  '#5e81ac': context.medium.mix(context.foreground, 0.4).setSaturation(0.7).hex,
+  '#81a1c1': context.medium.lighten(0.15).setSaturation(0.25).hex,
+  '#d8dee9': context.foreground.mix(context.background, 0.3).hex,
+  '#e5e9f0': context.foreground.mix(context.background, 0.2).hex,
+  '#eceff4': context.foreground.mix(context.background, 0.1).hex,
+  '#f5f6f9': context.foreground.lighten(0.85).hex,
+
+  '#bf616a': context.red.setSaturation(0.65).setLuminance(0.6).hex,
+  '#94151b': context.red.setLuminance(0.3).hex,
+  '#ff1212': context.red.setSaturation(1).setLuminance(0.5).hex,
+  '#e51400': context.red.setSaturation(0.7).setLuminance(0.5).hex,
+  '#be1100': context.red.setSaturation(0.3).setLuminance(0.5).hex,
+  '#f48771': context.red.setSaturation(0.4).setLuminance(0.65).hex,
+  '#d08770': context.red.setSaturation(0.1).setLuminance(0.75).hex,
+  '#653723': context.orange.mix(context.red).hex,
+  '#ee9d28': context.orange.hex,
+  '#ebcb8b': context.orange.hex,
+  '#ffcc00': context.orange.hex,
+  '#b89500': context.orange.hex,
+  '#ffff00': context.yellow.hex,
+  '#587c0c': context.green.mix(context.yellow, 0.2).hex,
+  '#a3be8c': context.green.mix(context.yellow, 0.2).setSaturation(0.3).hex,
+  '#89d185': context.green.hex,
+  '#7abd7a': context.green.mix(context.turqoise, 0.3).hex,
+  '#81b88b': context.green.mix(context.turqoise, 0.4).hex,
+  '#8fbcbb': context.turquoise.hex,
+  '#88c0d0': context.turquoise.lighten(0.2).hex,
+  '#264f78': context.blue.mix(context.turqoise).darken(0.4).hex,
+  '#0c7d9d': context.blue.mix(context.turqoise).darken(0.2).hex,
+  '#3399cc': context.blue.hex,
+  '#75beff': context.blue.lighten(0.4).hex,
+  '#157efb': context.blue.hex,
+  '#b180d7': context.purple.hex,
+  '#b48ead': context.purple.setLuminance(0.9).hex,
+})
 
 module.exports = function populateTheme (context) {
+    
+  const mappedColors = getColors(context)
   const map = (col, alpha = '') => {
     col   = col.toLowerCase()
     alpha = alpha.toLowerCase()
-    const mappedColors = {
-      '#2e3440': context.background.hex,
-      '#3b4252': context.background.mix(context.foreground, 0.02).hex,
-      '#434c5e': context.background.mix(context.foreground, 0.05).hex,
-      '#474f62': context.background.mix(context.foreground, 0.1).hex,
-      '#4c566a': context.background.mix(context.foreground, 0.15).hex,
-      '#616e88': context.background.mix(context.foreground, 0.2).hex,
-      '#5e81ac': context.medium.mix(context.foreground, 0.4).setSaturation(0.7).hex,
-      '#81a1c1': context.medium.lighten(0.15).setSaturation(0.25).hex,
-      '#d8dee9': context.foreground.mix(context.background, 0.3).hex,
-      '#e5e9f0': context.foreground.mix(context.background, 0.2).hex,
-      '#eceff4': context.foreground.mix(context.background, 0.1).hex,
-      '#f5f6f9': context.foreground.lighten(0.85).hex,
-
-      '#000000': context.background.darken().hex,
-      '#525252': context.background.lighten(0.1).hex,
-      '#606060': context.background.lighten(0.2).hex,
-      '#7c7c7c': context.background.lighten(0.3).hex,
-      '#808080': context.background.lighten(0.4).hex,
-      '#848484': context.background.lighten(0.5).hex,
-      '#a0a0a0': context.background.lighten(0.6).hex,
-      '#bbbbbb': context.background.lighten(0.7).hex,
-      '#c5c5c5': context.background.lighten(0.8).hex,
-      '#e7e7e7': context.background.lighten(0.9).hex,
-      '#ffffff': context.foreground.hex,
-
-      '#bf616a': context.red.setSaturation(0.65).setLuminance(0.6).hex,
-      '#94151b': context.red.setLuminance(0.3).hex,
-      '#ff1212': context.red.setSaturation(1).setLuminance(0.5).hex,
-      '#e51400': context.red.setSaturation(0.7).setLuminance(0.5).hex,
-      '#be1100': context.red.setSaturation(0.3).setLuminance(0.5).hex,
-      '#f48771': context.red.setSaturation(0.4).setLuminance(0.65).hex,
-      '#d08770': context.red.setSaturation(0.1).setLuminance(0.75).hex,
-      '#653723': context.orange.mix(context.red).hex,
-      '#ee9d28': context.orange.hex,
-      '#ebcb8b': context.orange.hex,
-      '#ffcc00': context.orange.hex,
-      '#b89500': context.orange.hex,
-      '#ffff00': context.yellow.hex,
-      '#587c0c': context.green.mix(context.yellow, 0.2).hex,
-      '#a3be8c': context.green.mix(context.yellow, 0.2).setSaturation(0.3).hex,
-      '#89d185': context.green.hex,
-      '#7abd7a': context.green.mix(context.turqoise, 0.3).hex,
-      '#81b88b': context.green.mix(context.turqoise, 0.4).hex,
-      '#8fbcbb': context.turquoise.hex,
-      '#88c0d0': context.turquoise.lighten(0.2).hex,
-      '#264f78': context.blue.mix(context.turqoise).darken(0.4).hex,
-      '#0c7d9d': context.blue.mix(context.turqoise).darken(0.2).hex,
-      '#3399cc': context.blue.hex,
-      '#75beff': context.blue.lighten(0.4).hex,
-      '#157efb': context.blue.hex,
-      '#b180d7': context.purple.hex,
-      '#b48ead': context.purple.setLuminance(0.9).hex,
-    }
-
     return (mappedColors[col] || col) + alpha
   }
+
   const colors = {
-    //#region[#a3be8c]
+    
     'terminal.ansiBrightGreen'                         : map('#a3be8c'),
     'terminal.ansiGreen'                               : map('#a3be8c'),
     'editorGutter.addedBackground'                     : map('#a3be8c'),
     'editorOverviewRuler.addedForeground'              : map('#a3be8c'),
     'gitDecoration.untrackedResourceForeground'        : map('#a3be8c'),
-    //#endregion
-
+    
     'terminal.ansiBrightCyan'                          : map('#8fbcbb'),
     'gitDecoration.submoduleResourceForeground'        : map('#8fbcbb'),
     'textPreformat.foreground'                         : map('#8fbcbb'),
@@ -463,39 +470,39 @@ module.exports = function populateTheme (context) {
 
   }
 
-  const tokenColors = {
+  const tokens = {
     'emphasis':                   { fontStyle: 'italic' },
     'strong':                     { fontStyle: 'bold' },
 
     // Comments
-    'comment':                              { foreground: map('#616E88', 'a0') },
-    'punctuation.definition.comment':       { foreground: map('#616E88', '80') },
-    'punctuation.end.definition.comment':   { foreground: map('#616E88', '80') },
-    'punctuation.start.definition.comment': { foreground: map('#616E88', '80') },
+    'comment':                              { foreground: map('#616e88', 'a0') },
+    'punctuation.definition.comment':       { foreground: map('#616e88', '80') },
+    'punctuation.end.definition.comment':   { foreground: map('#616e88', '80') },
+    'punctuation.start.definition.comment': { foreground: map('#616e88', '80') },
 
-    'constant.character':         { foreground: map('#EBCB8B') },
-    'constant.character.escape':  { foreground: map('#EBCB8B') },
-    'constant.language':          { foreground: map('#81A1C1') },
-    'constant.numeric':           { foreground: map('#B48EAD') },
-    'constant.regexp':            { foreground: map('#EBCB8B') },
+    'constant.character':         { foreground: map('#ebcb8b') },
+    'constant.character.escape':  { foreground: map('#ebcb8b') },
+    'constant.language':          { foreground: map('#81a1c1') },
+    'constant.numeric':           { foreground: map('#b48ead') },
+    'constant.regexp':            { foreground: map('#ebcb8b') },
 
-    'entity.name.class':            { foreground: map('#8FBCBB') },
-    'entity.name.type.class':       { foreground: map('#8FBCBB') },
-    'entity.name.tag':              { foreground: map('#81A1C1') },
-    'entity.other.attribute-name':  { foreground: map('#8FBCBB') },
-    'entity.other.inherited-class': { foreground: map('#8FBCBB'), fontStyle: 'bold' },
+    'entity.name.class':            { foreground: map('#8fbcbb') },
+    'entity.name.type.class':       { foreground: map('#8fbcbb') },
+    'entity.name.tag':              { foreground: map('#81a1c1') },
+    'entity.other.attribute-name':  { foreground: map('#8fbcbb') },
+    'entity.other.inherited-class': { foreground: map('#8fbcbb'), fontStyle: 'bold' },
 
-    'invalid.illegal':              { foreground: map('#D8DEE9'), 'background': map('#BF616A') },
-    'invalid.deprecated':           { foreground: map('#D8DEE9'), 'background': map('#EBCB8B') },
+    'invalid.illegal':              { foreground: map('#d8dee9'), 'background': map('#bf616a') },
+    'invalid.deprecated':           { foreground: map('#d8dee9'), 'background': map('#ebcb8b') },
 
     // 'keyword':            { foreground: map(context.keyword.hex) },
     'keyword.operator':   { foreground: map(context.keyword.hex) },
     'keyword.other.new':  { foreground: map(context.keyword.hex) },
 
     'markup.bold':        { fontStyle: 'bold' },
-    'markup.changed':     { foreground: map('#EBCB8B') },
-    'markup.deleted':     { foreground: map('#BF616A') },
-    'markup.inserted':    { foreground: map('#A3BE8C') },
+    'markup.changed':     { foreground: map('#ebcb8b') },
+    'markup.deleted':     { foreground: map('#bf616a') },
+    'markup.inserted':    { foreground: map('#a3be8c') },
 
 
     // Functions
@@ -508,185 +515,240 @@ module.exports = function populateTheme (context) {
     'meta.method-call.with-arguments':            { foreground: context.function.mix(context.medium).hex + '80' },
     'meta.method-call.without-arguments':         { foreground: context.function.mix(context.medium).hex + '80' },
 
-    'meta.preprocessor':                { foreground: map('#5E81AC') },
+    'meta.preprocessor':                { foreground: map('#5e81ac') },
 
-    'punctuation':                                  { foreground: map('#ECEFF4') },
-    'punctuation.definition.keyword':               { foreground: map('#D08770') },
-    'punctuation.definition.tag':                   { foreground: map('#81A1C1') },
-    'punctuation.section':                          { foreground: map('#ECEFF4') },
-    'punctuation.section.embedded.begin':           { foreground: map('#81A1C1') },
-    'punctuation.section.embedded.end':             { foreground: map('#81A1C1') },
-    'punctuation.terminator':                       { foreground: map('#81A1C1') },
-    'punctuation.definition.variable':              { foreground: map('#81A1C1') },
+    'punctuation':                                  { foreground: map('#eceff4') },
+    'punctuation.definition.keyword':               { foreground: map('#d08770') },
+    'punctuation.definition.tag':                   { foreground: map('#81a1c1') },
+    'punctuation.section':                          { foreground: map('#eceff4') },
+    'punctuation.section.embedded.begin':           { foreground: map('#81a1c1') },
+    'punctuation.section.embedded.end':             { foreground: map('#81a1c1') },
+    'punctuation.terminator':                       { foreground: map('#81a1c1') },
+    'punctuation.definition.variable':              { foreground: map('#81a1c1') },
 
-    'storage':          { foreground: context.storage.hex, fontStyle: 'italic'},
+    'storage':          { foreground: context.storage.hex, fontStyle: 'italic' },
     'storage.type':     { foreground: context.storage.hex, fontStyle: 'italic' },
 
-    'string':           { foreground: map('#A3BE8C') },
-    'string.regexp':    { foreground: map('#EBCB8B') },
+    'string':           { foreground: map('#a3be8c') },
+    'string.regexp':    { foreground: map('#ebcb8b') },
 
     'support.class':              { foreground: context.function.hex },
-    'support.constant':           { foreground: map('#81A1C1') },
-    'support.function':           { foreground: map('#88C0D0') },
-    'support.function.construct': { foreground: map('#81A1C1') },
-    'support.type':               { foreground: map('#8FBCBB') },
-    'support.type.exception':     { foreground: map('#8FBCBB') },
+    'support.constant':           { foreground: map('#81a1c1') },
+    'support.function':           { foreground: map('#88c0d0') },
+    'support.function.construct': { foreground: map('#81a1c1') },
+    'support.type':               { foreground: map('#8fbcbb') },
+    'support.type.exception':     { foreground: map('#8fbcbb') },
 
-    'token.debug-token': { foreground: map('#B48EAD') },
-    'token.error-token': { foreground: map('#BF616A') },
-    'token.info-token': { foreground: map('#88C0D0') },
-    'token.warn-token': { foreground: map('#EBCB8B') },
+    'token.debug-token': { foreground: map('#b48ead') },
+    'token.error-token': { foreground: map('#bf616a') },
+    'token.info-token': { foreground: map('#88c0d0') },
+    'token.warn-token': { foreground: map('#ebcb8b') },
 
-    // 'variable.other': { foreground: map('#D8DEE9') },
-    'variable.language': { foreground: map('#81A1C1') },
-    'variable.parameter': { foreground: map('#D8DEE9') },
+    // 'variable.other': { foreground: map('#d8dee9') },
+    'variable.language': { foreground: map('#81a1c1') },
+    'variable.parameter': { foreground: map('#d8dee9') },
 
-    'punctuation.separator.pointer-access.c': { foreground: map('#81A1C1') },
-    'source.c meta.preprocessor.include,source.c string.quoted.other.lt-gt.include': { foreground: map('#8FBCBB') },
-    'source.cpp keyword.control.directive.conditional': { foreground: map('#5E81AC'), fontStyle: 'bold' },
-    'source.cpp punctuation.definition.directive': { foreground: map('#5E81AC'), fontStyle: 'bold' },
-    'source.c keyword.control.directive.conditional': { foreground: map('#5E81AC'), fontStyle: 'bold' },
-    'source.c punctuation.definition.directive': { foreground: map('#5E81AC'), fontStyle: 'bold' },
+    'punctuation.separator.pointer-access.c': { foreground: map('#81a1c1') },
+    'source.c meta.preprocessor.include,source.c string.quoted.other.lt-gt.include': { foreground: map('#8fbcbb') },
+    'source.cpp keyword.control.directive.conditional': { foreground: map('#5e81ac'), fontStyle: 'bold' },
+    'source.cpp punctuation.definition.directive': { foreground: map('#5e81ac'), fontStyle: 'bold' },
+    'source.c keyword.control.directive.conditional': { foreground: map('#5e81ac'), fontStyle: 'bold' },
+    'source.c punctuation.definition.directive': { foreground: map('#5e81ac'), fontStyle: 'bold' },
 
-    'source.css constant.other.color.rgb-value': { foreground: map('#B48EAD') },
+    'source.css constant.other.color.rgb-value': { foreground: map('#b48ead') },
     'source.css meta.property-name': { foreground: map(context.keyword.hex) },
-    'source.css meta.property-value': { foreground: map('#88C0D0') },
-    'source.css keyword.control.at-rule.media': { foreground: map('#D08770') },
+    'source.css meta.property-value': { foreground: map('#88c0d0') },
+    'source.css keyword.control.at-rule.media': { foreground: map('#d08770') },
 
-    'source.css punctuation.definition.keyword':                                { foreground: map('#81A1C1') },
-    'source.css support.type.property-name':                                    { foreground: map('#D8DEE9') },
-    'source.css.scss punctuation.definition.interpolation.begin.bracket.curly': { foreground: map('#81A1C1') },
-    'source.css.scss punctuation.definition.interpolation.end.bracket.curly':   { foreground: map('#81A1C1') },
-    'source.css.scss variable.interpolation':                                   { foreground: map('#D8DEE9                                  '), fontStyle: 'italic' },
+    'source.css punctuation.definition.keyword':                                          { foreground: map('#81a1c1') },
+    'source.css support.type.property-name':                                              { foreground: map('#d8dee9') },
+    'source.css.scss punctuation.definition.interpolation.begin.bracket.curly':           { foreground: map('#81a1c1') },
+    'source.css.scss punctuation.definition.interpolation.end.bracket.curly':             { foreground: map('#81a1c1') },
+    'source.css.scss variable.interpolation':                                             { foreground: map('#d8dee9'), fontStyle: 'italic' },
 
-    'source.diff meta.diff.range.context':                                                { foreground: map('#8FBCBB') },
-    'source.diff meta.diff.header.from-file':                                             { foreground: map('#8FBCBB') },
-    'source.diff punctuation.definition.from-file':                                       { foreground: map('#8FBCBB') },
-    'source.diff punctuation.definition.range':                                           { foreground: map('#8FBCBB') },
-    'source.diff punctuation.definition.separator':                                       { foreground: map('#81A1C1') },
+    'source.diff meta.diff.range.context':                                                { foreground: map('#8fbcbb') },
+    'source.diff meta.diff.header.from-file':                                             { foreground: map('#8fbcbb') },
+    'source.diff punctuation.definition.from-file':                                       { foreground: map('#8fbcbb') },
+    'source.diff punctuation.definition.range':                                           { foreground: map('#8fbcbb') },
+    'source.diff punctuation.definition.separator':                                       { foreground: map('#81a1c1') },
 
-    'entity.name.type.module.elixir':                                                     { foreground: map('#8FBCBB') },
-    'variable.other.constant.elixir':                                                     { foreground: map('#8FBCBB') },
-    'variable.other.readwrite.module.elixir':                                             { foreground: map('#D8DEE9'), fontStyle: 'bold' },
-    'constant.other.symbol.elixir':                                                       { foreground: map('#D8DEE9'), fontStyle: 'bold' },
+    'entity.name.type.module.elixir':                                                     { foreground: map('#8fbcbb') },
+    'variable.other.constant.elixir':                                                     { foreground: map('#8fbcbb') },
+    'variable.other.readwrite.module.elixir':                                             { foreground: map('#d8dee9'), fontStyle: 'bold' },
+    'constant.other.symbol.elixir':                                                       { foreground: map('#d8dee9'), fontStyle: 'bold' },
 
-    'source.go constant.other.placeholder.go':                                            { foreground: map('#EBCB8B') },
+    'source.go constant.other.placeholder.go':                                            { foreground: map('#ebcb8b') },
 
-    'source.java comment.block.documentation.javadoc punctuation.definition.entity.html': { foreground: map('#81A1C1') },
-    'source.java constant.other':                                                         { foreground: map('#D8DEE9') },
-    'source.java keyword.other.documentation':                                            { foreground: map('#8FBCBB') },
-    'source.java keyword.other.documentation.author.javadoc':                             { foreground: map('#8FBCBB') },
-    'source.java keyword.other.documentation.directive':                                  { foreground: map('#8FBCBB') },
-    'source.java keyword.other.documentation.custom':                                     { foreground: map('#8FBCBB') },
-    'source.java keyword.other.documentation.see.javadoc':                                { foreground: map('#8FBCBB') },
-    'source.java meta.method-call meta.method':                                           { foreground: map('#88C0D0') },
-    'source.java meta.tag.template.link.javadoc':                                         { foreground: map('#8FBCBB') },
-    'source.java string.other.link.title.javadoc':                                        { foreground: map('#8FBCBB') },
-    'source.java meta.tag.template.value.javadoc':                                        { foreground: map('#88C0D0') },
-    'source.java punctuation.definition.keyword.javadoc':                                 { foreground: map('#8FBCBB') },
-    'source.java punctuation.definition.tag.begin.javadoc':                               { foreground: map('#616E88') },
-    'source.java punctuation.definition.tag.end.javadoc':                                 { foreground: map('#616E88') },
-    'source.java storage.modifier.import':                                                { foreground: map('#8FBCBB') },
-    'source.java storage.modifier.package':                                               { foreground: map('#8FBCBB') },
-    'source.java storage.type':                                                           { foreground: map('#8FBCBB') },
-    'source.java storage.type.annotation':                                                { foreground: map('#D08770') },
-    'source.java storage.type.generic':                                                   { foreground: map('#8FBCBB') },
-    'source.java storage.type.primitive':                                                 { foreground: map('#81A1C1') },
+    'source.java comment.block.documentation.javadoc punctuation.definition.entity.html': { foreground: map('#81a1c1') },
+    'source.java constant.other':                                                         { foreground: map('#d8dee9') },
+    'source.java keyword.other.documentation':                                            { foreground: map('#8fbcbb') },
+    'source.java keyword.other.documentation.author.javadoc':                             { foreground: map('#8fbcbb') },
+    'source.java keyword.other.documentation.directive':                                  { foreground: map('#8fbcbb') },
+    'source.java keyword.other.documentation.custom':                                     { foreground: map('#8fbcbb') },
+    'source.java keyword.other.documentation.see.javadoc':                                { foreground: map('#8fbcbb') },
+    'source.java meta.method-call meta.method':                                           { foreground: map('#88c0d0') },
+    'source.java meta.tag.template.link.javadoc':                                         { foreground: map('#8fbcbb') },
+    'source.java string.other.link.title.javadoc':                                        { foreground: map('#8fbcbb') },
+    'source.java meta.tag.template.value.javadoc':                                        { foreground: map('#88c0d0') },
+    'source.java punctuation.definition.keyword.javadoc':                                 { foreground: map('#8fbcbb') },
+    'source.java punctuation.definition.tag.begin.javadoc':                               { foreground: map('#616e88') },
+    'source.java punctuation.definition.tag.end.javadoc':                                 { foreground: map('#616e88') },
+    'source.java storage.modifier.import':                                                { foreground: map('#8fbcbb') },
+    'source.java storage.modifier.package':                                               { foreground: map('#8fbcbb') },
+    'source.java storage.type':                                                           { foreground: map('#8fbcbb') },
+    'source.java storage.type.annotation':                                                { foreground: map('#d08770') },
+    'source.java storage.type.generic':                                                   { foreground: map('#8fbcbb') },
+    'source.java storage.type.primitive':                                                 { foreground: map('#81a1c1') },
 
-    'source.js punctuation.decorator':                                              { foreground: map('#D08770') },
-    'source.js meta.decorator variable.other.readwrite':                            { foreground: map('#D08770') },
-    'source.ts meta.decorator variable.other.readwrite':                            { foreground: map('#D08770') },
-    'source.tsx meta.decorator variable.other.readwrite':                           { foreground: map('#D08770') },
-    'source.js meta.decorator entity.name.function':                                { foreground: map('#D08770') },
-    'source.ts meta.decorator entity.name.function':                                { foreground: map('#D08770') },
-    'source.tsx meta.decorator entity.name.function':                               { foreground: map('#D08770') },
-    'source.js meta.object-literal.key':                                            { foreground: map('#88C0D0') },
-    'source.js storage.type.class.jsdoc':                                           { foreground: map('#8FBCBB') },
-    'source.js string.quoted.template punctuation.quasi.element.begin':             { foreground: map('#81A1C1') },
-    'source.js string.quoted.template punctuation.quasi.element.end':               { foreground: map('#81A1C1') },
-    'source.js string.template punctuation.definition.template-expression':         { foreground: map('#81A1C1') },
-    'source.js string.quoted.template meta.method-call.with-arguments':             { foreground: map('#ECEFF4') },
-    'source.js string.template meta.template.expression support.variable.property': { foreground: map('#D8DEE9') },
-    'source.js string.template meta.template.expression variable.other.object':     { foreground: map('#D8DEE9') },
-    'source.js support.type.primitive':                                             { foreground: map('#81A1C1') },
-    'source.js variable.other.object':                                              { foreground: map('#D8DEE9') },
-    'source.js variable.other.readwrite.alias':                                     { foreground: map('#8FBCBB') },
+    'source.js punctuation.decorator':                                              { foreground: map('#d08770') },
+    'source.js meta.decorator variable.other.readwrite':                            { foreground: map('#d08770') },
+    'source.ts meta.decorator variable.other.readwrite':                            { foreground: map('#d08770') },
+    'source.tsx meta.decorator variable.other.readwrite':                           { foreground: map('#d08770') },
+    'source.js meta.decorator entity.name.function':                                { foreground: map('#d08770') },
+    'source.ts meta.decorator entity.name.function':                                { foreground: map('#d08770') },
+    'source.tsx meta.decorator entity.name.function':                               { foreground: map('#d08770') },
+    'source.js meta.object-literal.key':                                            { foreground: map('#88c0d0') },
+    'source.js storage.type.class.jsdoc':                                           { foreground: map('#8fbcbb') },
+    'source.js string.quoted.template punctuation.quasi.element.begin':             { foreground: map('#81a1c1') },
+    'source.js string.quoted.template punctuation.quasi.element.end':               { foreground: map('#81a1c1') },
+    'source.js string.template punctuation.definition.template-expression':         { foreground: map('#81a1c1') },
+    'source.js string.quoted.template meta.method-call.with-arguments':             { foreground: map('#eceff4') },
+    'source.js string.template meta.template.expression support.variable.property': { foreground: map('#d8dee9') },
+    'source.js string.template meta.template.expression variable.other.object':     { foreground: map('#d8dee9') },
+    'source.js support.type.primitive':                                             { foreground: map('#81a1c1') },
+    'source.js variable.other.object':                                              { foreground: map('#d8dee9') },
+    'source.js variable.other.readwrite.alias':                                     { foreground: map('#8fbcbb') },
 
-    'source.ts punctuation.decorator':                          { foreground: map('#D08770') },
-    'source.tsx punctuation.decorator':                         { foreground: map('#D08770') },
-    'source.ts meta.object-literal.key':                        { foreground: map('#D8DEE9') },
-    'source.tsx meta.object-literal.key':                       { foreground: map('#D8DEE9') },
-    'source.ts meta.object-literal.key entity.name.function':   { foreground: map('#88C0D0') },
-    'source.tsx meta.object-literal.key entity.name.function':  { foreground: map('#88C0D0') },
-    'source.ts support.class':                                  { foreground: map('#8FBCBB') },
-    'source.ts support.type':                                   { foreground: map('#8FBCBB') },
-    'source.ts entity.name.type':                               { foreground: map('#8FBCBB') },
-    'source.ts entity.name.class':                              { foreground: map('#8FBCBB') },
-    'source.tsx support.class':                                 { foreground: map('#8FBCBB') },
-    'source.tsx support.type':                                  { foreground: map('#8FBCBB') },
-    'source.tsx entity.name.type':                              { foreground: map('#8FBCBB') },
-    'source.tsx entity.name.class':                             { foreground: map('#8FBCBB') },
-    'source.ts support.constant.math':                          { foreground: map('#8FBCBB') },
-    'source.ts support.constant.dom':                           { foreground: map('#8FBCBB') },
-    'source.ts support.constant.json':                          { foreground: map('#8FBCBB') },
-    'source.tsx support.constant.math':                         { foreground: map('#8FBCBB') },
-    'source.tsx support.constant.dom':                          { foreground: map('#8FBCBB') },
-    'source.tsx support.constant.json':                         { foreground: map('#8FBCBB') },
-    'source.ts support.variable':                               { foreground: map('#D8DEE9') },
-    'source.tsx support.variable':                              { foreground: map('#D8DEE9') },
+    'source.ts punctuation.decorator':                          { foreground: map('#d08770') },
+    'source.tsx punctuation.decorator':                         { foreground: map('#d08770') },
+    'source.ts meta.object-literal.key':                        { foreground: map('#d8dee9') },
+    'source.tsx meta.object-literal.key':                       { foreground: map('#d8dee9') },
+    'source.ts meta.object-literal.key entity.name.function':   { foreground: map('#88c0d0') },
+    'source.tsx meta.object-literal.key entity.name.function':  { foreground: map('#88c0d0') },
+    'source.ts support.class':                                  { foreground: map('#8fbcbb') },
+    'source.ts support.type':                                   { foreground: map('#8fbcbb') },
+    'source.ts entity.name.type':                               { foreground: map('#8fbcbb') },
+    'source.ts entity.name.class':                              { foreground: map('#8fbcbb') },
+    'source.tsx support.class':                                 { foreground: map('#8fbcbb') },
+    'source.tsx support.type':                                  { foreground: map('#8fbcbb') },
+    'source.tsx entity.name.type':                              { foreground: map('#8fbcbb') },
+    'source.tsx entity.name.class':                             { foreground: map('#8fbcbb') },
+    'source.ts support.constant.math':                          { foreground: map('#8fbcbb') },
+    'source.ts support.constant.dom':                           { foreground: map('#8fbcbb') },
+    'source.ts support.constant.json':                          { foreground: map('#8fbcbb') },
+    'source.tsx support.constant.math':                         { foreground: map('#8fbcbb') },
+    'source.tsx support.constant.dom':                          { foreground: map('#8fbcbb') },
+    'source.tsx support.constant.json':                         { foreground: map('#8fbcbb') },
+    'source.ts support.variable':                               { foreground: map('#d8dee9') },
+    'source.tsx support.variable':                              { foreground: map('#d8dee9') },
 
-    'text.html.basic constant.character.entity.html': { foreground: map('#EBCB8B') },
-    'text.html.basic constant.other.inline-data': { foreground: map('#D08770'), fontStyle: 'italic' },
-    'text.html.basic meta.tag.sgml.doctype': { foreground: map('#5E81AC') },
-    'text.html.basic punctuation.definition.entity': { foreground: map('#81A1C1') },
+    'text.html.basic constant.character.entity.html': { foreground: map('#ebcb8b') },
+    'text.html.basic constant.other.inline-data': { foreground: map('#d08770'), fontStyle: 'italic' },
+    'text.html.basic meta.tag.sgml.doctype': { foreground: map('#5e81ac') },
+    'text.html.basic punctuation.definition.entity': { foreground: map('#81a1c1') },
 
-    'source.properties entity.name.section.group-title.ini': { foreground: map('#88C0D0') },
-    'source.properties punctuation.separator.key-value.ini': { foreground: map('#81A1C1') },
+    'source.properties entity.name.section.group-title.ini': { foreground: map('#88c0d0') },
+    'source.properties punctuation.separator.key-value.ini': { foreground: map('#81a1c1') },
 
-    'markup.heading': { foreground: map('#88C0D0') },
-    'text.html.markdown markup.fenced_code.block': { foreground: map('#8FBCBB') },
-    'text.html.markdown markup.fenced_code.block punctuation.definition': { foreground: map('#8FBCBB') },
-    'text.html.markdown markup.inline.raw': { foreground: map('#8FBCBB') },
-    'text.html.markdown markup.inline.raw punctuation.definition.raw': { foreground: map('#8FBCBB') },
+    'markup.heading': { foreground: map('#88c0d0') },
+    'text.html.markdown markup.fenced_code.block': { foreground: map('#8fbcbb') },
+    'text.html.markdown markup.fenced_code.block punctuation.definition': { foreground: map('#8fbcbb') },
+    'text.html.markdown markup.inline.raw': { foreground: map('#8fbcbb') },
+    'text.html.markdown markup.inline.raw punctuation.definition.raw': { foreground: map('#8fbcbb') },
     'text.html.markdown markup.italic': { fontStyle: 'italic' },
     'text.html.markdown markup.underline.link': { fontStyle: 'underline' },
-    'text.html.markdown beginning.punctuation.definition.list': { foreground: map('#81A1C1') },
-    'text.html.markdown beginning.punctuation.definition.quote': { foreground: map('#8FBCBB') },
-    'text.html.markdown markup.quote': { foreground: map('#616E88') },
-    'text.html.markdown punctuation.definition.heading': { foreground: map('#81A1C1') },
-    'text.html.markdown punctuation.definition.constant': { foreground: map('#81A1C1') },
-    'text.html.markdown punctuation.definition.string': { foreground: map('#81A1C1') },
-    'text.html.markdown constant.other.reference.link': { foreground: map('#88C0D0') },
-    'text.html.markdown string.other.link.description': { foreground: map('#88C0D0') },
-    'text.html.markdown string.other.link.title': { foreground: map('#88C0D0') },
+    'text.html.markdown beginning.punctuation.definition.list': { foreground: map('#81a1c1') },
+    'text.html.markdown beginning.punctuation.definition.quote': { foreground: map('#8fbcbb') },
+    'text.html.markdown markup.quote': { foreground: map('#616e88') },
+    'text.html.markdown punctuation.definition.heading': { foreground: map('#81a1c1') },
+    'text.html.markdown punctuation.definition.constant': { foreground: map('#81a1c1') },
+    'text.html.markdown punctuation.definition.string': { foreground: map('#81a1c1') },
+    'text.html.markdown constant.other.reference.link': { foreground: map('#88c0d0') },
+    'text.html.markdown string.other.link.description': { foreground: map('#88c0d0') },
+    'text.html.markdown string.other.link.title': { foreground: map('#88c0d0') },
 
-    'source.perl punctuation.definition.variable': { foreground: map('#D8DEE9') },
+    'source.perl punctuation.definition.variable': { foreground: map('#d8dee9') },
 
-    'source.php meta.function-call': { foreground: map('#88C0D0') },
-    'source.php meta.function-call.object': { foreground: map('#88C0D0') },
+    'source.php meta.function-call': { foreground: map('#88c0d0') },
+    'source.php meta.function-call.object': { foreground: map('#88c0d0') },
 
-    'source.python entity.name.function.decorator': { foreground: map('#D08770') },
-    'source.python meta.function.decorator support.type': { foreground: map('#D08770') },
-    'source.python meta.function-call.generic': { foreground: map('#88C0D0') },
-    'source.python support.type': { foreground: map('#88C0D0') },
-    'source.python variable.parameter.function.language': { foreground: map('#D8DEE9') },
-    'source.python meta.function.parameters variable.parameter.function.language.special.self': { foreground: map('#81A1C1') },
+    'source.python entity.name.function.decorator': { foreground: map('#d08770') },
+    'source.python meta.function.decorator support.type': { foreground: map('#d08770') },
+    'source.python meta.function-call.generic': { foreground: map('#88c0d0') },
+    'source.python support.type': { foreground: map('#88c0d0') },
+    'source.python variable.parameter.function.language': { foreground: map('#d8dee9') },
+    'source.python meta.function.parameters variable.parameter.function.language.special.self': { foreground: map('#81a1c1') },
 
-    'text.xml entity.name.tag.namespace':                           { foreground: map('#8FBCBB') },
-    'text.xml keyword.other.doctype':                               { foreground: map('#5E81AC') },
-    'text.xml meta.tag.preprocessor entity.name.tag':               { foreground: map('#5E81AC') },
-    'text.xml string.unquoted.cdata':                               { foreground: map('#D08770'), fontStyle: 'italic' },
-    'text.xml string.unquoted.cdata punctuation.definition.string': { foreground: map('#D08770'), fontStyle: 'italic' },
+    'text.xml entity.name.tag.namespace':                           { foreground: map('#8fbcbb') },
+    'text.xml keyword.other.doctype':                               { foreground: map('#5e81ac') },
+    'text.xml meta.tag.preprocessor entity.name.tag':               { foreground: map('#5e81ac') },
+    'text.xml string.unquoted.cdata':                               { foreground: map('#d08770'), fontStyle: 'italic' },
+    'text.xml string.unquoted.cdata punctuation.definition.string': { foreground: map('#d08770'), fontStyle: 'italic' },
 
-    'source.yaml entity.name.tag': { foreground: map('#8FBCBB') }
-	}
-
-  return {
-    $schema:  'vscode://schemas/color-theme',
-    type:     'dark',
-    colors,
-    tokenColors: Object
-      .entries(tokenColors)
-      .map(([ scope, settings ]) => ({ scope, settings }))
+    'source.yaml entity.name.tag': { foreground: map('#8fbcbb') }
   }
+
+  const testTokens = {
+    'test.xml': {
+      'entity.name.tag.namespace':  { foreground: map('#8fbcbb') },
+      'keyword.other.doctype':      { foreground: map('#5e81ac') },
+    }
+  }
+
+  flattenObject.call(testTokens)
+
+  const tokenColors   = Object.entries(tokens).map(mapTokenColor)
+  
+  return { 
+    $schema, 
+    type, 
+    tokenColors, 
+    colors 
+  }
+}
+
+
+const sym = Symbol('result')
+
+function flattenObject (...descriptor) {
+  const result = {}
+  const currentPath = [ ...descriptor ]
+  let key, iter, current = this
+
+  while (iter = currentPath.shift())
+    current = current[iter]
+ 
+  console.log("c:", current)
+  
+  if (typeof current !== 'object')
+    return current
+
+  console.log("c:", current)
+  
+  if (!this[sym])
+    Object.defineProperty(this, sym, {
+        enumerable: false,
+        value: {},
+    })
+
+  for (key in current) {
+    console.log(key)
+    const nextPath  = descriptor.concat(key)
+    const flatPath  = nextPath.join(' ')
+    const resp      = flattenObject.apply(this, nextPath)
+    delete current[key]
+    this[sym][flatPath] = resp
+  }
+  
+  return current
+}
+
+const flatten = (obj) => {
+  flattenObject.call(obj)
+  for (let key in obj[sym]) {
+    let c = obj[sym][key]
+    if (typeof c === 'object' && Object.keys(c).length === 0)
+      delete obj[sym][key]
+  }
+  return obj[sym]
 }

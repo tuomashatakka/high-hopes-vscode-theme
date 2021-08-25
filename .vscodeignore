@@ -9,4 +9,4 @@ themes/**
 .eslintrc
 .editorconfig
 .flowconfig
-server.js
+server.mjs

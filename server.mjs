@@ -1,12 +1,13 @@
-require('json5/lib/register')
+/* eslint-disable no-console, max-len */
+import 'json5' // eslint-disable-line import/no-unassigned-import
 
-const { spawn } = require('child_process')
-const path      = require('path')
-const fs        = require('fs')
-const Color     = require('color-shift').default
-const parse     = require('./themes/theme')
-const colors    = require('./themes/palette.json5')
-const getColorsFromTheme = require('./src/get_colors_from_theme')
+import { spawn } from 'child_process'
+import { join, dirname  } from 'path'
+import { fileURLToPath } from 'url'
+import { watch } from 'fs'
+
+global.__filename = fileURLToPath(import.meta.url)
+global.__dirname  = dirname(global.__filename)
 
 function applyChanges () {
   const proc = spawn('node', [ './src/apply_changes.js' ])
@@ -24,13 +25,13 @@ function applyChanges () {
 
 
 const paths = [
-  path.join(__dirname, 'src'),
-  path.join(__dirname, 'themes'),
-  path.join(__dirname, 'server.js'),
+  join(__dirname, 'src'),
+  join(__dirname, 'themes'),
+  join(__dirname, 'server.mjs'),
 ]
 
-for (const filepath of paths)
-  fs.watch(filepath, 'utf8', applyChanges)
+for (var filepath of paths)
+  watch(filepath, 'utf8', applyChanges)
 
 applyChanges()
 
