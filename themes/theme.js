@@ -62,7 +62,7 @@ const getColors = context => ({
   '#b48ead': context.purple.setLuminance(0.9).hex,
 })
 
-module.exports = function populateTheme (context) {
+export default function populateTheme (context) {
     
   const mappedColors = getColors(context)
   const map = (col, alpha = '') => {
@@ -116,13 +116,8 @@ module.exports = function populateTheme (context) {
     'editor.findMatchHighlightBackground'              : map('#88c0d0', '33'),
     'editor.findRangeHighlightBackground'              : map('#88c0d0', '33'),
     'panelTitle.activeBorder'                          : map('#88c0d0', '00'),
-    'tab.activeBorder'                                 : map('#88c0d0', '00'),
-    'tab.activeBorderTop'                              : map('#88c0d0', '00'),
-    'tab.hoverBorder'                                  : map('#88c0d0', '00'),
-    'tab.unfocusedActiveBorder'                        : map('#88c0d0', '00'),
-    'tab.unfocusedActiveBorderTop'                     : map('#88c0d0', '00'),
-    'tab.unfocusedHoverBorder'                         : map('#88c0d0', '00'),
-
+    
+    
     'terminal.ansiBrightBlue'                          : map('#81a1c1'),
     'terminal.ansiBlue'                                : map('#81a1c1'),
     'inputValidation.infoBackground'                   : map('#81a1c1'),
@@ -140,12 +135,12 @@ module.exports = function populateTheme (context) {
     'statusBar.debuggingBackground'                    : map('#5e81ac'),
     'editorMarkerNavigation.background'                : map('#5e81ac', 'c0'),
     'tree.indentGuidesStroke'                          : map('#616e88'),
-
+    
     'button.background'                                : map('#434c5e'),
     'button.hoverBackground'                           : map('#4c566a'),
     'extensionButton.prominentHoverBackground'         : map('#4c566a'),
     'welcomePage.buttonHoverBackground'                : map('#4c566a'),
-
+    
     'terminal.ansiBrightBlack'                         : map('#4c566a'),
     'editorCodeLens.foreground'                        : map('#4c566a'),
     'editorIndentGuide.activeBackground'               : map('#4c566a'),
@@ -155,7 +150,7 @@ module.exports = function populateTheme (context) {
     'peekView.border'                                  : map('#4c566a'),
     'statusBarItem.activeBackground'                   : map('#4c566a'),
     'textCodeBlock.background'                         : map('#4c566a'),
-
+    
     'editorRuler.foreground'                           : map('#434c5e'),
     'editorSuggestWidget.selectedBackground'           : map('#434c5e'),
     'extensionButton.prominentBackground'              : map('#434c5e'),
@@ -173,19 +168,35 @@ module.exports = function populateTheme (context) {
     'scrollbarSlider.background'                       : map('#434c5e', '99'),
     'editorIndentGuide.background'                     : map('#434c5e', 'b3'),
     'editor.rangeHighlightBackground'                  : map('#434c5e', '52'),
-
+    
     'statusBar.background'                             : context.background.hex,
     'statusBar.noFolderBackground'                     : context.background.hex,
     'statusBar.border'                                 : context.background.hex,
     'statusBarItem.prominentBackground'                : context.background.hex,
-    'tab.activeBackground'                             : context.background.hex,
-    'tab.hoverBackground'                              : map(context.background.hex, 'cc'),
-    'tab.unfocusedHoverBackground'                     : map(context.background.hex, 'b3'),
+    
     'tab.border'                                       : map(context.background.hex, '00'),
+    'tab.activeBorder'                                 : map('#88c0d0', '00'),
+    'tab.unfocusedActiveBorder'                        : map('#88c0d0', '00'),
+    'tab.hoverBorder'                                  : map('#88c0d0', '00'),
+    'tab.activeBorderTop'                              : map('#88c0d0', 'b0'),
+    'tab.unfocusedActiveBorderTop'                     : map('#88c0d0', '80'),
+    'tab.unfocusedHoverBorder'                         : map('#88c0d0', '40'),
+    
+    'tab.activeBackground'                             : context.background.lighten(0.1).hex,
+    'tab.hoverBackground'                              : map(context.background.lighten(0.1).hex, 'cc'),
+    'tab.unfocusedHoverBackground'                     : map(context.background.lighten(0.1).hex, 'b3'),
+    'tab.inactiveBackground'                           : map('#2e3440'),
+    
+    'tab.activeForeground'                             : map('#d8dee9'),
+    'tab.unfocusedActiveForeground'                    : map('#d8dee9', '99'),
+    'tab.inactiveForeground'                           : map('#d8dee9', '66'),
+    'tab.unfocusedInactiveForeground'                  : map('#d8dee9', '66'),
+    
     'textBlockQuote.background'                        : map(context.background.hex),
     'terminal.ansiBlack'                               : map(context.background.hex),
     'dropdown.background'                              : map(context.background.hex),
     'dropdown.border'                                  : map(context.background.hex),
+    
     'editor.hoverHighlightBackground'                  : map(context.background.hex),
     'editor.lineHighlightBackground'                   : map(context.background.hex),
     'editor.lineHighlightBorder'                       : map(context.background.hex),
@@ -222,6 +233,7 @@ module.exports = function populateTheme (context) {
 
     'badge.foreground'                                 : map('#2e3440'),
     'debugExceptionWidget.border'                      : map('#2e3440'),
+    
     'editor.background'                                : map('#2e3440'),
     'editorGroup.emptyBackground'                      : map('#2e3440'),
     'editorGroup.focusedEmptyBorder'                   : map('#2e3440'),
@@ -230,6 +242,7 @@ module.exports = function populateTheme (context) {
     'editorGutter.background'                          : map('#2e3440'),
     'editorSuggestWidget.background'                   : map('#2e3440'),
     'editorWidget.background'                          : map('#2e3440'),
+    
     'list.activeSelectionForeground'                   : map('#2e3440'),
     'notificationCenterHeader.background'              : map('#2e3440'),
     'notifications.border'                             : map('#2e3440'),
@@ -238,7 +251,6 @@ module.exports = function populateTheme (context) {
     'peekViewEditorGutter.background'                  : map('#2e3440'),
     'peekViewResult.background'                        : map('#2e3440'),
     'sideBar.background'                               : map('#2e3440'),
-    'tab.inactiveBackground'                           : map('#2e3440'),
     'terminal.background'                              : map('#2e3440'),
     'titleBar.activeBackground'                        : map('#2e3440'),
     'titleBar.inactiveBackground'                      : map('#2e3440'),
@@ -274,15 +286,12 @@ module.exports = function populateTheme (context) {
     'statusBar.debuggingForeground'                    : map('#d8dee9'),
     'statusBar.foreground'                             : map('#d8dee9'),
     'statusBar.noFolderForeground'                     : map('#d8dee9'),
-    'tab.activeForeground'                             : map('#d8dee9'),
+    
     'titleBar.activeForeground'                        : map('#d8dee9'),
     'terminal.foreground'                              : map('#d8dee9'),
     'descriptionForeground'                            : map('#d8dee9', 'e6'),
     'input.placeholderForeground'                      : map('#d8dee9', '99'),
-    'tab.unfocusedActiveForeground'                    : map('#d8dee9', '99'),
     'gitDecoration.ignoredResourceForeground'          : map('#d8dee9', '66'),
-    'tab.inactiveForeground'                           : map('#d8dee9', '66'),
-    'tab.unfocusedInactiveForeground'                  : map('#d8dee9', '66'),
     'titleBar.inactiveForeground'                      : map('#d8dee9', '66'),
     'peekViewResult.lineForeground'                    : map('#d8dee9', '66'),
 
@@ -317,6 +326,26 @@ module.exports = function populateTheme (context) {
     'editorMarkerNavigationError.background'           : map('#bf616a', 'c0'),
     'diffEditor.removedTextBackground'                 : map('#bf616a', '4d'),
     'editorError.border'                               : map('#bf616a', '00'),
+
+    // "list.activeSelectionForeground": "#84FFFF",
+    // "list.inactiveSelectionForeground": "#84FFFF",
+    // "list.highlightForeground": "#84FFFF",
+    // "scrollbarSlider.activeBackground": "#84FFFF50",
+    // "editorSuggestWidget.highlightForeground": "#84FFFF",
+    // "textLink.foreground": "#84FFFF",
+    // "progressBar.background": "#84FFFF",
+    // "pickerGroup.foreground": "#84FFFF",
+    // "notificationLink.foreground": "#84FFFF",
+    // "editorWidget.resizeBorder": "#84FFFF",
+    // "editorWidget.border": "#84FFFF",
+    // "settings.modifiedItemIndicator": "#84FFFF",
+    // "settings.headerForeground": "#84FFFF",
+    // "panelTitle.activeBorder": "#84FFFF",
+    // "breadcrumb.activeSelectionForeground": "#84FFFF",
+    // "menu.selectionForeground": "#84FFFF",
+    // "menubar.selectionForeground": "#84FFFF",
+    // "editor.findMatchBorder": "#84FFFF",
+    // "selection.background": "#84FFFF40",
 
     // #region [ rgba(255,0,255,0.2,0.1) ]
       //'activityBar.activeBorder': map('#d8dee9'),
@@ -687,15 +716,6 @@ module.exports = function populateTheme (context) {
 
     'source.yaml entity.name.tag': { foreground: map('#8fbcbb') }
   }
-
-  const testTokens = {
-    'test.xml': {
-      'entity.name.tag.namespace':  { foreground: map('#8fbcbb') },
-      'keyword.other.doctype':      { foreground: map('#5e81ac') },
-    }
-  }
-
-  flattenObject.call(testTokens)
 
   const tokenColors   = Object.entries(tokens).map(mapTokenColor)
   

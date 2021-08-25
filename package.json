@@ -4,6 +4,9 @@
     "description": "lit af",
     "version": "0.0.1",
     "type": "module",
+    "scripts": {
+        "build": "node --experimental-json-modules ./src/apply_changes.js"
+    },
     "engines": {
         "vscode": "^1.42.0"
     },
@@ -38,7 +41,7 @@
         "@babel/core": "^7.8.7",
         "@babel/node": "^7.8.7",
         "babel-node": "0.0.1-security",
-        "color-shift": "^0.0.0",
+        "color-shift": "^0.0.3",
         "eslint": "^7.0.0",
         "flow-bin": "^0.124.0",
         "json5": "^2.1.3",

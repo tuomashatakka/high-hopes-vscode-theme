@@ -1,0 +1,20 @@
+{
+  "foreground":   "#ffece9",
+  "foreground2":  "#e4e0f9",
+  "light":        "#bfbdef",
+  "medium":       "#847c9f",
+  "dimmed":       "#585266",
+  "background":   "#42404f",
+  "red":          "#ef5258",
+  "orange":       "#f6b891",
+  "yellow":       "#f7f79c",
+  "green":        "#7bf0ae",
+  "turquoise":    "#8adedd",
+  "blue":         "#5852ef",
+  "purple":       "#7862af",
+
+  "definition":   "#99ffcc",
+  "keyword":      "#c092cf",
+  "storage":      "#9090b7",
+  "function":     "#90a2af"
+}
